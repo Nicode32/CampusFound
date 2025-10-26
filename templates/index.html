@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CampusFound@CSJMU</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav>
+    <div class="logo">CampusFound@CSJMU</div>
+    <ul>
+      <li><a href="#home">Home</a></li>
+      <li><a href="#report">Report</a></li>
+      <li><a href="#records">Records</a></li>
+      <li><a href="#contact">Contact</a></li>
+    </ul>
+  </nav>
+
+  <!-- HOME SECTION -->
+  <section id="home" class="section home">
+    <h1>Digital Lost & Found Platform</h1>
+    <p>Helping students reconnect with their belongings quickly and securely.</p>
+    <a href="#report" class="btn">Report Item</a>
+  </section>
+
+  <!-- REPORT FORM -->
+  <section id="report" class="section form-section">
+    <h2>Report Lost or Found Item</h2>
+    <form action="/submit" method="POST">
+      <label>Name of Student:</label>
+      <input type="text" name="Nameofstudent" placeholder="Enter your full name" required>
+
+      <label>Course:</label>
+      <input type="text" name="course" placeholder="e.g. B.Tech CSE" required>
+
+      <label>Contact No.:</label>
+      <input type="number" name="contactno" placeholder="Your contact number" required>
+
+      <label>Item:</label>
+      <input type="text" name="item" placeholder="Item name" required>
+
+      <label>Item Description:</label>
+      <textarea name="itemdescription" placeholder="Describe your item..." required></textarea>
+
+      <label>Status:</label>
+      <select name="status" required>
+        <option value="">Select</option>
+        <option value="Lost">Lost</option>
+        <option value="Found">Found</option>
+      </select>
+
+      <label>Date:</label>
+      <input type="date" name="date">
+
+      <button type="submit">Submit Report</button>
+    </form>
+  </section>
+
+  <!-- RECORDS TABLE -->
+  <section id="records" class="section records">
+    <h2>Recently Reported Items</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Contact</th>
+          <th>Item</th>
+          <th>Description</th>
+          <th>Course</th>
+          <th>Status</th>
+          <th>Date</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for row in records %}
+        <tr>
+          <td>{{ row.id }}</td>
+          <td>{{ row.Nameofstudent }}</td>
+          <td>{{ row.contactno }}</td>
+          <td>{{ row.item }}</td>
+          <td>{{ row.itemdescription }}</td>
+          <td>{{ row.course }}</td>
+          <td class="{% if row.status=='Lost' %}lost{% else %}found{% endif %}">{{ row.status }}</td>
+          <td>{{ row.date }}</td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7">No records yet.</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact">
+    <h2>Contact Us</h2>
+    <p>Email: <a href="mailto:helpdesk@csjmu.ac.in">helpdesk@csjmu.ac.in</a></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <p>© 2025 CampusFound@CSJMU | Designed for Students & Staff</p>
+  </footer>
+
+</body>
+</html>
